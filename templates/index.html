@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js" 
+integrity="sha512-tQYZBKe34uzoeOjY9jr3MX7R/mo7n25vnqbnrkskGr4D6YOoPYSpyafUAzQVjV6xAozAqUFIEFsCO4z8mnVBXA==" 
+crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block body %}
+<h1 class="logo">CBIR System</h1>
+
+<section class="header">  
+    <h1> Content Based Image Retrieval (CBIR)</h1>
+    <p>Upload image below: </p>
+</section>
+
+<section class="form">
+    <form action="/" method="POST" enctype="multipart/form-data">
+
+        <label for="img" class="drop-container">
+            <input type="file" name="query_img">
+        </label>
+
+        <label for="qty_retrieve" class="quantity">
+            Number of images to retrieve:
+            <input type="number" name="qty_retrieve" id="qty_retrieve" min="1" max="20">
+            <input type="submit">
+        </label>
+
+    </form>
+    <h2>Image uploaded: </h2>
+    {% if query_path %}
+    <img src="{{ query_path }}" width="300px">
+    <figcaption>
+        {{ query_path }}
+        {{ filename }}
+    </figcaption>
+    {% endif %}
+</section>
+
+<section class="result">
+
+    <h2>Results: </h2>
+    {% for score in scores %}
+    <figure style="float: left; margin-right: 20px; margin-bottom: 20px;">
+        <img src="{{ score[1] }}" height="100px">
+        {{ score[1] }}
+        <figcaption>{{ score[2]}} : {{ score[0] }}</figcaption>
+    </figure>  
+    {% endfor %}
+
+</section>
+
+
+
+
+{% endblock %}
